@@ -1,25 +1,20 @@
 FROM python:3.10.8-slim-buster
 
-#Dont Remove My Credit @AV_BOTz_UPDATE 
-#This Repo Is By @BOT_OWNER26 
-# For Any Kind Of Error Ask Us In Support Group @AV_SUPPORT_GROUP
+# Maintainer Info
+LABEL maintainer="@AV_BOTz_UPDATE - @BOT_OWNER26"
 
-RUN apt update && apt upgrade -y
-RUN apt install git -y
+# Install system dependencies
+RUN apt-get update -y && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements
 COPY requirements.txt /requirements.txt
 
-#Dont Remove My Credit @AV_BOTz_UPDATE 
-#This Repo Is By @BOT_OWNER26 
-# For Any Kind Of Error Ask Us In Support Group @AV_SUPPORT_GROUP
+# Install Python dependencies
+RUN pip3 install --no-cache-dir -U pip && pip3 install --no-cache-dir -r /requirements.txt
 
-RUN cd /
-RUN pip3 install -U pip && pip3 install -U -r requirements.txt
-RUN mkdir /AV_FILE_TO_LINK
-WORKDIR /AV_FILE_TO_LINK
-COPY . /AV_FILE_TO_LINK
+# Create working directory
+WORKDIR /app
+COPY . /app
 
-#Dont Remove My Credit @AV_BOTz_UPDATE 
-#This Repo Is By @BOT_OWNER26 
-# For Any Kind Of Error Ask Us In Support Group @AV_SUPPORT_GROUP
-
-CMD ["python", "bot.py"]
+# Start the bot
+CMD ["python3", "bot.py"]
